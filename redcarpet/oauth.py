@@ -11,6 +11,8 @@ facebook = {
     "login_params": ["client_id", "redirect_uri", "scope"],
     "token_url": "https://graph.facebook.com/v2.3/oauth/access_token",
     "token_params": ["client_id", "redirect_uri", "client_secret"],
+    "user_data_api": "https://graph.facebook.com/v2.5/me",
+    "user_data_params": {"fields": "name, first_name, last_name, email, gender, link, id"}
 }
 
 
@@ -21,7 +23,7 @@ def get_oauth_provider(provider):
 
 def get_access_token(provider, code):
     provider_info = get_oauth_provider(provider)
-    url = create_url(provider_info['token_url'], provider_info['token_params'], provider_info)
+    url = create_url(provider_info["token_url"], provider_info["token_params"], provider_info)
     resp = requests.get(url, params={"code": code})
     return resp.json()
 
@@ -31,3 +33,13 @@ def create_url(url, params, provider_info):
     for param in params:
         values[param] = provider_info[param]
     return url + "?" + urllib.urlencode(values)
+
+
+def get_user_data(provider, token):
+    provider_info = get_oauth_provider(provider)
+    payload = {"access_token": token}
+    payload.update(provider_info["user_data_params"])
+    resp = requests.get(provider_info["user_data_api"], params=payload)
+    data = resp.json()
+    return data
+
