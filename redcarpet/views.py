@@ -1,7 +1,6 @@
-from flask import render_template, redirect
+from flask import render_template, redirect, request
 from redcarpet import app
 import oauth
-import utils
 
 
 @app.route("/")
@@ -12,5 +11,6 @@ def index():
 @app.route("/login/oauth/<provider>")
 def login(provider):
     provider_info = oauth.get_oauth_provider(provider)
-    login_url = utils.create_url(provider_info['login_url'], provider_info['login_data'])
+    login_url = oauth.create_url(provider_info['login_url'], provider_info['login_params'], provider_info)
     return redirect(login_url)
+
