@@ -1,11 +1,14 @@
-from flask import render_template, redirect, request, session
+from flask import render_template, redirect, request, session, url_for, jsonify
 from redcarpet import app
 import oauth
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if "user_data" in session:
+        return render_template("home.html")
+    else:
+        return render_template("index.html")
 
 
 @app.route("/login/oauth/<provider>")
@@ -21,5 +24,16 @@ def oauth_callback(provider):
         code = request.args["code"]
         token_data = oauth.get_access_token(provider, code)
         token = token_data['access_token']
+        user_data = oauth.get_user_data(provider, token)
+        if user_data:
+            session["user_data"] = user_data
+            return redirect(url_for("index"))
+        else:
+            pass  # An error occurred TODO
     elif "error" in request.args:
-        pass
+        pass  # User declined to give permissions
+
+
+@app.route("/api/data", methods=["GET"])
+def get_user_data():
+    return jsonify(session["user_data"])
