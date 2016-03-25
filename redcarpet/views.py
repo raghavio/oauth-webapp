@@ -11,6 +11,12 @@ def index():
         return render_template("index.html")
 
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
+
+
 @app.route("/login/oauth/<provider>")
 def login(provider):
     provider_info = oauth.get_oauth_provider(provider)
@@ -36,4 +42,7 @@ def oauth_callback(provider):
 
 @app.route("/api/data", methods=["GET"])
 def get_user_data():
-    return jsonify(session["user_data"])
+    if "user_data" in session:
+        return jsonify(session["user_data"])
+    else:
+        return redirect(url_for("index"))

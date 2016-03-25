@@ -102,7 +102,9 @@ var Panel = React.createClass({
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
-                    <h3 className="panel-title">Details</h3>
+                    <h3 className="panel-title">Details
+                        <div className="pull-right" style={{marginTop:"-8px"}}><a href="/logout" className="btn btn-sm btn-primary">Logout</a></div>
+                    </h3>
                 </div>
                 <div className="panel-body">
                     <div className="media">
