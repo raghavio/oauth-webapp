@@ -1,31 +1,7 @@
-import json
 from flask import render_template, redirect, request, session, url_for, jsonify
 from oauth_webapp import app
+from helpers import is_new_user, create_new_user
 import oauth
-
-
-def is_new_user(email):
-    with open("database", "r") as database:
-        for user in database.readlines():
-            user_data = json.loads(user)
-            if user_data["email"] == email:
-                return False
-    return True
-
-
-def create_new_user(user_data):
-    with open("database", "a") as database:
-        fields = user_data["fields"]
-
-        provider = user_data["provider"]
-        email = fields["email"]
-        user_id = fields["id"]
-        name = fields["name"]
-
-        data_to_store = {"provider": provider, "email": email, "id": user_id, "name": name}
-
-        database.write(json.dumps(data_to_store))
-        database.write("\n")
 
 
 @app.route("/")
