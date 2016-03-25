@@ -42,10 +42,11 @@ def get_user_data(provider, token):
     resp = requests.get(provider_info["user_data_api"], params=payload)
     fields = resp.json()
 
-    def get_thumbnail(provider, id):
+    def get_thumbnail():
         if provider == "facebook":
-            return "http://graph.facebook.com/{}/picture?type=large".format(id)
+            return "http://graph.facebook.com/{}/picture?type=large".format(fields["id"])
 
-    thumbnail = get_thumbnail(provider, fields["id"])
-    data = {"fields": fields, "thumbnail": thumbnail}
+    thumbnail = get_thumbnail()
+    fields["thumbnail"] = thumbnail
+    data = {"fields": fields, "provider": provider}
     return data

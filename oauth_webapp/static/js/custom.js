@@ -5,13 +5,12 @@ var Pagination = React.createClass({
         var parentClass = event.target.parentNode.className;
         if (parentClass.indexOf("disabled") > -1)
             return false;
-        console.log(parentClass);
-        this.props.changePage(parentClass == "previous" ? this.props.current_page - 1 : this.props.current_page + 1);
+        var current_page = this.props.current_page;
+        this.props.changePage(parentClass == "previous" ? current_page - 1 : current_page + 1);
     },
     render: function () {
         var page = this.props.current_page;
         var max_page = Math.ceil(this.props.totalItems / ITEMS_PER_PAGE);
-        console.log(this.props.totalItems);
         return (
             <nav>
                 <ul className="pager">
@@ -47,7 +46,6 @@ var Field = React.createClass({
         return {page: 1};
     },
     changePage: function (page) {
-        console.log(page);
         this.setState({page: page})
 
     },
@@ -99,17 +97,22 @@ var Panel = React.createClass({
         return {data: []};
     },
     render: function () {
+        var data = this.state.data;
+        if (data.length == 0)  // If data array is empty that means we haven't received data yet so return false.
+            return false;
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
                     <h3 className="panel-title">Details
-                        <div className="pull-right" style={{marginTop:"-8px"}}><a href="/logout" className="btn btn-sm btn-primary">Logout</a></div>
+                        <div className="pull-right" style={{marginTop:"-8px"}}>
+                            <a href="/logout" className="btn btn-sm btn-primary">Logout</a>
+                        </div>
                     </h3>
                 </div>
                 <div className="panel-body">
                     <div className="media">
-                        <Thumbnail thumbnail={this.state.data["thumbnail"]}/>
-                        <Field fields={this.state.data["fields"]}/>
+                        <Thumbnail thumbnail={data["fields"]["thumbnail"]}/>
+                        <Field fields={data["fields"]}/>
                     </div>
                 </div>
             </div>
