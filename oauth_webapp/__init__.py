@@ -1,5 +1,6 @@
 from flask import Flask
 
 app = Flask(__name__)
-app.secret_key = '\x03\xf3\x9f\xe3\xd0\x9b-I\x97~U\x9ez\x9359+\xea\xe5J'
+app.config.from_object("oauth_webapp.default_settings")
+
 from oauth_webapp import views

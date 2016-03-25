@@ -1,24 +1,13 @@
 import requests
 import urllib
-
-facebook = {
-    "name": "Facebook",
-    "client_id": "210978529266397",
-    "client_secret": "a0facebf9f04574e9776bd5cd15a8464",
-    "redirect_uri": "http://localhost:5000/oauth/facebook",
-    "scope": "email",
-    "login_url": "https://www.facebook.com/dialog/oauth",
-    "login_params": ["client_id", "redirect_uri", "scope"],
-    "token_url": "https://graph.facebook.com/v2.3/oauth/access_token",
-    "token_params": ["client_id", "redirect_uri", "client_secret"],
-    "user_data_api": "https://graph.facebook.com/v2.5/me",
-    "user_data_params": {"fields": "name, first_name, last_name, email, gender, link, id"}
-}
+from oauth_webapp import app
 
 
 def get_oauth_provider(provider):
-    if provider == "facebook":
-        return facebook
+    def upper():
+        return provider.upper()
+
+    return app.config.get(upper())
 
 
 def get_access_token(provider, code):
