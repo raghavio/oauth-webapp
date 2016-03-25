@@ -56,7 +56,7 @@ var Field = React.createClass({
         for (var key in this.props.fields) {
             fields.push(<div><h4 className="media-heading">{key}</h4>
 
-                <p>{this.props.fields[key]}</p></div>);
+                <p style={{wordBreak: "break-all"}}>{this.props.fields[key]}</p></div>);
         }
         var page = this.state.page;
         return (
