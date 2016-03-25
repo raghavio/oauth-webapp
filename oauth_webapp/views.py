@@ -1,5 +1,5 @@
 from flask import render_template, redirect, request, session, url_for, jsonify
-from redcarpet import app
+from oauth_webapp import app
 import oauth
 
 
