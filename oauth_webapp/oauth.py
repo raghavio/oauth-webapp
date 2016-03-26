@@ -85,6 +85,8 @@ def get_user_data(provider, token):
         """
         if provider == "facebook":
             return "http://graph.facebook.com/{}/picture?type=large".format(fields["id"])
+        elif provider == "google":
+            return fields["picture"]
 
     thumbnail = get_thumbnail()
     fields["thumbnail"] = thumbnail

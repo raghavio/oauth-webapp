@@ -2,5 +2,15 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <a href="{{ url_for('login', provider='facebook') }}" class="btn btn-default">Facebook</a>
+<div class="container" style="text-align: center">
+    <h1 style="padding: 100px 0 100px 0">Login</h1>
+    <div id="login-buttons">
+        {% if config["FACEBOOK"] %}
+        <a href="{{ url_for('login', provider='facebook') }}" class="btn btn-lg btn-primary">Facebook</a>
+        {% endif %}
+        {% if config["GOOGLE"] %}
+        <a href="{{ url_for('login', provider='google') }}" class="btn btn-lg btn-success">Google</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
